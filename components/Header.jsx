@@ -2,12 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "../lib/utils";
+import { Button } from "../components/ui/button";
 import Image from "next/image";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 export default function Header() {
   const pathname = usePathname();
+
+  const { user, isSignedIn } = useUser();
 
   const navigation = [
     { name: "For Sell", href: "/for-sell" },
@@ -16,16 +25,16 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
+    <header className=" bg-white border-b">
       <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-                src="/logo.svg"
+              src="/logo.svg"
               alt="Logo"
               className="h-[150PX] w-[150PX]"
-                width={150}
-                height={150}
+              width={150}
+              height={150}
             />
           </Link>
         </div>
@@ -51,7 +60,15 @@ export default function Header() {
           <Button className="bg-purple-600 hover:bg-purple-700">
             Post Your Ad
           </Button>
-          <Button variant="ghost">Login</Button>
+          {/* <Button variant="ghost">Login</Button> */}
+
+          {isSignedIn ? (
+            <UserButton />
+          ) : (
+            <Link href="/sign-up">
+              <Button variant="ghost">Login</Button>
+            </Link>
+          )}
         </div>
       </div>
     </header>
