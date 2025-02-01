@@ -5,18 +5,15 @@ import { usePathname } from "next/navigation";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
 import Image from "next/image";
-// import {
-//   SignedIn,
-//   SignedOut,
-//   SignInButton,
-//   UserButton,
-//   useUser,
-// } from "@clerk/nextjs";
+import {
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 export default function Header() {
   const pathname = usePathname();
 
-  // const { user, isSignedIn } = useUser();
+  const { user, isSignedIn } = useUser();
 
   const navigation = [
     { name: "For Sell", href: "/for-sell" },
@@ -60,15 +57,15 @@ export default function Header() {
           <Button className="bg-purple-600 hover:bg-purple-700">
             Post Your Ad
           </Button>
-          <Button variant="ghost">Login</Button>
+          {/* <Button variant="ghost">Login</Button> */}
 
-          {/* {isSignedIn ? (
+          {isSignedIn ? (
             <UserButton />
           ) : (
             <Link href="/sign-up">
               <Button variant="ghost">Login</Button>
             </Link>
-          )} */}
+          )}
         </div>
       </div>
     </header>
