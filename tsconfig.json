@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/(routes)/add-new-listing/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

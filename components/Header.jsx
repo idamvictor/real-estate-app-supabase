@@ -32,6 +32,7 @@ export default function Header() {
               className="h-[150PX] w-[150PX]"
               width={150}
               height={150}
+              priority
             />
           </Link>
         </div>
@@ -54,9 +55,11 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button className="bg-purple-600 hover:bg-purple-700">
-            Post Your Ad
-          </Button>
+          <Link href="/add-new-listing">
+            <Button className="bg-purple-600 hover:bg-purple-700">
+              Post Your Ad
+            </Button>
+          </Link>
           {/* <Button variant="ghost">Login</Button> */}
 
           {isSignedIn ? (
