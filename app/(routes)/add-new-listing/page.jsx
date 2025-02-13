@@ -8,11 +8,13 @@ import { supabase } from "../../../utils/supabse/client";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function AddNewListing() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [loader, setLoader] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   const handleNextClick = async () => {
     if (selectedLocation) {
@@ -35,6 +37,7 @@ export default function AddNewListing() {
         if(data) {
           setLoader(false);
           toast('New Address Assed for Listing')
+          router.replace('/edit-listing/'+data[0].id)
         } 
         if(error) {
           setLoader(false);
