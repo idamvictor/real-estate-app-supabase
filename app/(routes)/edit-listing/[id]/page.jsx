@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import {
   RadioGroup,
   RadioGroupItem,
@@ -27,6 +27,7 @@ export default function EditListing({ params }) {
   const { user } = useUser();
   const router = useRouter();
   const { id } = use(params); // Unwrapping params
+  const [listing, setListing] = useState([]);
 
   useEffect(() => {
     if (user) verifyUserRecord();
@@ -38,6 +39,10 @@ export default function EditListing({ params }) {
       .select("*")
       .eq("createdBy", user?.primaryEmailAddress.emailAddress)
       .eq("id", id);
+
+    if (data) {
+      setListing(data[0]);
+    }
 
     if (!data || data.length === 0) {
       router.replace("/");
@@ -60,7 +65,12 @@ export default function EditListing({ params }) {
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
       <Formik
-        initialValues={{ type: "", propertyType: "" }}
+        initialValues={{
+          type: "",
+          propertyType: "",
+          profileImage: user?.imageUrl,
+          fullName: user?.fullName,
+        }}
         onSubmit={(values) => {
           console.log(values);
           onSubmitHandler(values);
@@ -75,7 +85,7 @@ export default function EditListing({ params }) {
                   Do you want to Rent it or Sell it?
                 </h3>
                 <RadioGroup
-                  defaultValue="rent"
+                  defaultValue={listing?.propertyType}
                   className="flex gap-4"
                   onValueChange={(v) => (values.type = v)}
                 >
@@ -96,9 +106,16 @@ export default function EditListing({ params }) {
                 <Select
                   name="propertyType"
                   onValueChange={(e) => (values.propertyType = e)}
+                  defaultValue={listing?.propertyType}
                 >
                   <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="Select Property Type" />
+                    <SelectValue
+                      placeholder={
+                        listing?.propertyType
+                          ? listing?.propertyType
+                          : "Select Property Type"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="house">House</SelectItem>
@@ -117,6 +134,7 @@ export default function EditListing({ params }) {
                     id="bedroom"
                     name="bedroom"
                     onChange={handleChange}
+                    defaultValue={listing?.bedroom}
                   />
                 </div>
                 <div className="space-y-2">
@@ -126,6 +144,7 @@ export default function EditListing({ params }) {
                     id="bathroom"
                     name="bathroom"
                     onChange={handleChange}
+                    defaultValue={listing?.bathroom}
                   />
                 </div>
                 <div className="space-y-2">
@@ -135,6 +154,7 @@ export default function EditListing({ params }) {
                     id="builtin"
                     name="builtIn"
                     onChange={handleChange}
+                    defaultValue={listing?.builtIn}
                   />
                 </div>
               </div>
@@ -147,6 +167,7 @@ export default function EditListing({ params }) {
                     id="parking"
                     name="parking"
                     onChange={handleChange}
+                    defaultValue={listing?.parking}
                   />
                 </div>
                 <div className="space-y-2">
@@ -156,6 +177,7 @@ export default function EditListing({ params }) {
                     id="lotsize"
                     name="lotSize"
                     onChange={handleChange}
+                    defaultValue={listing?.lotSize}
                   />
                 </div>
                 <div className="space-y-2">
@@ -165,6 +187,7 @@ export default function EditListing({ params }) {
                     id="area"
                     name="area"
                     onChange={handleChange}
+                    defaultValue={listing?.area}
                   />
                 </div>
               </div>
@@ -177,6 +200,7 @@ export default function EditListing({ params }) {
                     id="price"
                     name="price"
                     onChange={handleChange}
+                    defaultValue={listing?.price}
                   />
                 </div>
                 <div className="space-y-2">
@@ -186,6 +210,7 @@ export default function EditListing({ params }) {
                     id="hoa"
                     name="hoa"
                     onChange={handleChange}
+                    defaultValue={listing?.hoa}
                   />
                 </div>
               </div>
@@ -197,6 +222,7 @@ export default function EditListing({ params }) {
                   className="min-h-[150px]"
                   name="description"
                   onChange={handleChange}
+                  defaultValue={listing?.description}
                 />
               </div>
 
